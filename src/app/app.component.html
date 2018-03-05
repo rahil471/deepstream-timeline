@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div style="margin-top:20px;" class="col-md-3 col-md-offset-3">
+      <div class="form-group">
+        <h4>Enter your name</h4>
+        <input type="text" class="form-control" (change)="setUser($event)" placeholder="Enter your name"/>
+      </div>
+    </div>
+    <div class="col-md-6 col-md-offset-3">
+      <h3>Post your ideas!</h3>
+      <div class="col-md-12">
+        <textarea  (keyup)="onKey($event)" [value]="userStatus" rows="2" style="width:100%" placeholder="What's on your mind?"></textarea>
+        <button (click)="addPost()" class="btn btn-primary pull-right">Post</button>
+      </div>
+      <h3>Legendary Timeline</h3>
+      <div style="margin-top:10px;" class="col-md-12 timeline-element" *ngFor="let elem of timeline">
+        <div class="col-md-2 thumb">
+            <img src="assets/user.jpg" alt="..." class="img-thumbnail">
+        </div>
+        <div class="col-md-10">
+            <h4>{{elem.author}} <small>says...</small></h4>
+            <p>{{elem.content}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
