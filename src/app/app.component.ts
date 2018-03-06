@@ -18,24 +18,26 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(){
+    /** Login to ds */
     this.client = this.dsservice.ds.login();
-    const list = this.client.record.getList('timeline');
+
+    const list = this.client.record.getList('timeline'); //This gets the list or creats if it doesn't exists
     
     
     list.whenReady( list =>{
-      const entries = list.getEntries();
       /** Fetch all existing entries */
+      const entries = list.getEntries();
+
       for(let i =0; i<entries.length; i++){
         this.client.record.getRecord(entries[i]).whenReady(record =>{
           record.subscribe(data => {
             this.timeline.unshift(data);
-          }, true);
+          }, true); //true invokes callback for the first time as well.
         });
       }
 
       /** Listen to new entries */
       list.on('entry-added', (recordName)=>{
-        console.log(list.getEntries());
         this.client.record.getRecord(recordName).whenReady(record =>{
           record.subscribe(data => {
             this.timeline.unshift(data);
@@ -56,8 +58,8 @@ export class AppComponent implements OnInit{
       return alert("Enter your name, to proceed.");
     }
     
-    const uid = Math.floor(Math.random() * 1000);
-    const recordName = `status/${uid}`;
+    const uid = Math.floor(Math.random() * 1000); //temp way for demo
+    const recordName = `status/${uid}`; //create a unique record name
     const record = this.client.record.getRecord(recordName);
     record.whenReady(record => {
       // data has now been loaded
@@ -66,7 +68,7 @@ export class AppComponent implements OnInit{
         content: this.userStatus
       });
       const list = this.client.record.getList('timeline');
-      list.addEntry(recordName);
+      list.addEntry(recordName); //add to the list
       this.userStatus = "";
     });
   }
